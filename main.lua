@@ -11,18 +11,17 @@ local HUD = {
     seatbelt = false
 }
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(33) -- Update speed roughly every 33 milliseconds for 30fps smoothness
+       Wait(33) -- Update speed roughly every 33 milliseconds for 30fps smoothness
         if HUD.enabled then
-            local ped = PlayerPedId()
-            local vehicle = GetVehiclePedIsIn(ped, false)
-            HUD.health = math.floor(GetEntityHealth(ped) - 100)
-            HUD.armor = math.floor(GetPedArmour(ped))
+            local vehicle = GetVehiclePedIsIn(cache.ped, false)
+            HUD.health = math.floor(GetEntityHealth(cache.ped) - 100)
+            HUD.armor = math.floor(GetPedArmour(cache.ped))
             HUD.food = math.floor(QBCore.Functions.GetPlayerData().metadata["hunger"])
             HUD.water = math.floor(QBCore.Functions.GetPlayerData().metadata["thirst"])
 
-            if IsPedInAnyVehicle(ped) then
+            if IsPedInAnyVehicle(cache.ped) then
                 HUD.speed = math.floor(GetEntitySpeed(vehicle) * 3.6) -- Speed in km/h
                 HUD.fuel = math.floor(GetVehicleFuelLevel(vehicle))
                 HUD.seatbelt = LocalPlayer.state.seatbelt
